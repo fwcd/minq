@@ -44,7 +44,13 @@ def ket(*args: int | str):
 
 def kron(*arrays: ArrayLike) -> np.ndarray:
     '''Computes the Kronecker product (tensor product) of the given arrays'''
+    assert len(arrays) > 0
     return reduce(np.kron, arrays)
+
+def kronpow(array: ArrayLike, n: int) -> np.ndarray:
+    '''Applies the Kronecker product n times'''
+    assert n > 0
+    return reduce(lambda acc, _: np.kron(acc, array), range(n - 1), array)
 
 def from_binary(bits: Iterable[int]) -> int:
     '''Converts a list of bits to the corresponding number when interpreted in base 2'''
