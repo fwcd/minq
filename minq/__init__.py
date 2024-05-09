@@ -1,6 +1,6 @@
 from functools import reduce
 from numpy.typing import ArrayLike, NDArray
-from typing import cast
+from typing import Any, cast
 
 import numpy as np
 
@@ -40,12 +40,12 @@ def ket(*args: int | str):
         x[int(args[0], base=2)] = 1
         return x
 
-def kron(*arrays: ArrayLike) -> NDArray:
+def kron(*arrays: ArrayLike) -> NDArray[Any]:
     '''Computes the Kronecker product (tensor product) of the given arrays'''
     assert len(arrays) > 0
     return reduce(np.kron, arrays)
 
-def kronpow(array: ArrayLike, n: int) -> NDArray:
+def kronpow(array: ArrayLike, n: int) -> NDArray[Any]:
     '''Applies the Kronecker product n times'''
     assert n > 0
     return reduce(lambda acc, _: np.kron(acc, array), range(n - 1), array)
