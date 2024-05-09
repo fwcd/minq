@@ -21,7 +21,3 @@ Repository = "https://github.com/fwcd/minq"
 
 [tool.setuptools.packages]
 find = {}
-
-[tool.pyright]
-include = ["minq"]
-reportGeneralTypeIssues = "none"
