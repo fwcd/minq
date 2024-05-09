@@ -1,6 +1,6 @@
 from functools import reduce
-from numpy.typing import ArrayLike
-from typing import Iterable
+from numpy.typing import ArrayLike, NDArray
+from typing import cast
 
 import numpy as np
 
@@ -32,26 +32,24 @@ def ket(*args: int | str):
     elif isinstance(args[0], int):
         assert all(b == 0 or b == 1 for b in args)
         x = np.zeros(2 ** len(args))
-        x[from_binary(args)] = 1
+        x[from_binary(*cast(tuple[int, ...], args))] = 1
         return x
-    elif isinstance(args[0], str):
+    else:
         assert len(args) == 1
         x = np.zeros(2 ** len(args[0]))
         x[int(args[0], base=2)] = 1
         return x
-    else:
-        raise TypeError('ket(...) takes either int or str')
 
-def kron(*arrays: ArrayLike) -> np.ndarray:
+def kron(*arrays: ArrayLike) -> NDArray:
     '''Computes the Kronecker product (tensor product) of the given arrays'''
     assert len(arrays) > 0
     return reduce(np.kron, arrays)
 
-def kronpow(array: ArrayLike, n: int) -> np.ndarray:
+def kronpow(array: ArrayLike, n: int) -> NDArray:
     '''Applies the Kronecker product n times'''
     assert n > 0
     return reduce(lambda acc, _: np.kron(acc, array), range(n - 1), array)
 
-def from_binary(bits: Iterable[int]) -> int:
+def from_binary(*bits: int) -> int:
     '''Converts a list of bits to the corresponding number when interpreted in base 2'''
     return 0 if len(bits) == 0 else int(''.join(map(str, bits)), base=2)
