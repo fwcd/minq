@@ -1,4 +1,4 @@
-name: Typecheck
+name: Check
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  typecheck:
+  check:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,5 +22,5 @@ jobs:
       run: npm install -g pyright
     - name: Install dependencies
       run: pip3 install .
-    - name: Run typecheck
+    - name: Run Pyright
       run: pyright
